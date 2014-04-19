@@ -19,6 +19,7 @@ namespace AutoEquals.Lib.Tests.Unit.TestObjects
         /// <summary>
         /// Gets or sets the derived property.
         /// </summary>
+        [EqualsProperty]
         public int DerivedProperty { get; set; }
     }
 }

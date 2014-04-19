@@ -19,6 +19,7 @@ namespace AutoEquals.Lib.Tests.Unit.TestObjects
         /// <summary>
         /// Gets or sets the base property.
         /// </summary>
+        [EqualsProperty]
         public string BaseProperty { get; set; }
     }
 }
