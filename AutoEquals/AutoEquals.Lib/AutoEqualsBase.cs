@@ -1,21 +1,58 @@
-﻿using System;
-using System.Reflection;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AutoEqualsBase.cs" company="AutoEquals">
+//   AutoEquals Library
+//   Licence: GNU GPL 2.0
+//   No warranty granted, use at your own risk.
+// </copyright>
+// <summary>
+//   Defines the AutoEqualsBase type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace AutoEquals.Lib
 {
-    public class BaseClass : IEquatable<BaseClass>
-    {
-        [EqualsProperty]
-        public string SomeProp { get; set; }
+    using System;
+    using System.Reflection;
 
-        public static bool operator ==(BaseClass left, BaseClass right)
+    /// <summary>
+    /// The base class defining the Equals and GetHashCode methods.
+    /// </summary>
+    public abstract class AutoEqualsBase : IEquatable<AutoEqualsBase>
+    {
+        /// <summary>
+        /// The equality operator, which uses the overridden equals method.
+        /// </summary>
+        /// <param name="left">
+        /// The left operand.
+        /// </param>
+        /// <param name="right">
+        /// The right operand.
+        /// </param>
+        /// <returns>
+        /// True if objects are equal based on the properties with <see cref="EqualsPropertyAttribute"/> attributes.
+        /// </returns>
+        public static bool operator ==(AutoEqualsBase left, AutoEqualsBase right)
         {
-            return Equals(left, right);
+            // ReSharper disable once RedundantNameQualifier
+            return object.Equals(left, right);
         }
 
-        public static bool operator !=(BaseClass left, BaseClass right)
+        /// <summary>
+        /// The inequality operator, which uses the overridden equals method.
+        /// </summary>
+        /// <param name="left">
+        /// The left operand.
+        /// </param>
+        /// <param name="right">
+        /// The right operand.
+        /// </param>
+        /// <returns>
+        /// True if objects are NOT equal based on the properties with <see cref="EqualsPropertyAttribute"/> attributes.
+        /// </returns>
+        public static bool operator !=(AutoEqualsBase left, AutoEqualsBase right)
         {
-            return !Equals(left, right);
+            // ReSharper disable once RedundantNameQualifier
+            return !object.Equals(left, right);
         }
 
         /// <summary>
@@ -25,10 +62,17 @@ namespace AutoEquals.Lib
         /// <returns>True if objects are equal based on properties with <see cref="EqualsPropertyAttribute"/> attributes.</returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
 
-            return Equals((BaseClass)obj);
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            return this.Equals((AutoEqualsBase)obj);
         }
 
         /// <summary>
@@ -37,10 +81,17 @@ namespace AutoEquals.Lib
         /// </summary>
         /// <param name="other">Object to compare with.</param>
         /// <returns>If values of all given properties are equal, then method returns a true value. Otherwise false.</returns>
-        public bool Equals(BaseClass other)
+        public bool Equals(AutoEqualsBase other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
 
             var type = GetType();
 
@@ -71,11 +122,11 @@ namespace AutoEquals.Lib
         }
 
         /// <summary>
-        /// Computes hashcode, by finding all properties with a <see cref="EqualsPropertyAttribute"/> attribute.
+        /// Computes hash code, by finding all properties with a <see cref="EqualsPropertyAttribute"/> attribute.
         /// Properties can be from either the base class or the derived class.
-        /// Hashcode is computed as the sum of hashcodes of properties with a special attribute.
+        /// Hash code is computed as the sum of hash codes of properties with a special attribute.
         /// </summary>
-        /// <returns>Hashcode computeed from properties with <see cref="EqualsPropertyAttribute"/> attribute.</returns>
+        /// <returns>Hash code computed from properties with <see cref="EqualsPropertyAttribute"/> attribute.</returns>
         public override int GetHashCode()
         {
             unchecked
