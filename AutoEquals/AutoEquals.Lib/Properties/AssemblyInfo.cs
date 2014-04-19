@@ -1,8 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="AssemblyInfo.cs" company="AutoEquals">
-//   AutoEquals Library
-//   Licence: GNU GPL 2.0
-//   No warranty granted, use at your own risk.
+//   AutoEquals Library. Licence: GNU GPL 2.0. No warranty granted, use at your own risk.
 // </copyright>
 // <summary>
 //   AssemblyInfo.cs
