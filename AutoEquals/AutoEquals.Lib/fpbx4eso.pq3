@@ -73,7 +73,7 @@ namespace AutoEquals.Lib
                 return EnumerableEquals(obj1, obj2);
             }
 
-            if (type != null && type == typeof(IEnumerable))
+            if (type != null && (type.GetType() == typeof(IEnumerable)))
             {
                 return EnumerableEquals(obj1, obj2);
             }

@@ -26,7 +26,7 @@ namespace AutoEquals.Lib.Tests.Unit
         public void EqualsTestDifferentValuesReturnsFalse()
         {
             var obj1 = new DerivedClass();
-            var obj2 = new DerivedClass { DerivedProperty = 1, BaseProperty = "Some value" };
+            var obj2 = new DerivedClass { DerivedProperty = 1, StringProperty = "Some value" };
 
             var result = obj1.Equals(obj2);
 
@@ -40,7 +40,7 @@ namespace AutoEquals.Lib.Tests.Unit
         public void EqualsTestDifferentValueReturnsFalse()
         {
             var obj1 = new DerivedClass { DerivedProperty = 1 };
-            var obj2 = new DerivedClass { DerivedProperty = 1, BaseProperty = "Some value" };
+            var obj2 = new DerivedClass { DerivedProperty = 1, StringProperty = "Some value" };
 
             var result = obj1.Equals(obj2);
 
@@ -53,8 +53,8 @@ namespace AutoEquals.Lib.Tests.Unit
         [Test]
         public void EqualsTestSameValuesReturnsTrue()
         {
-            var obj1 = new DerivedClass { DerivedProperty = 1, BaseProperty = "Some value" };
-            var obj2 = new DerivedClass { DerivedProperty = 1, BaseProperty = "Some value" };
+            var obj1 = new DerivedClass { DerivedProperty = 1, StringProperty = "Some value" };
+            var obj2 = new DerivedClass { DerivedProperty = 1, StringProperty = "Some value" };
 
             var result = obj1.Equals(obj2);
 

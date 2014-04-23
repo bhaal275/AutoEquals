@@ -42,6 +42,7 @@
     <Compile Include="AutoEqualsBase.cs" />
     <Compile Include="EqualityHelpers.cs" />
     <Compile Include="EqualsPropertyAttribute.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
