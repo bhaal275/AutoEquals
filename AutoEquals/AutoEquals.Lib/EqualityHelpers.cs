@@ -18,7 +18,7 @@ namespace AutoEquals.Lib
     /// <summary>
     /// The equality helpers.
     /// </summary>
-    public static class EqualityHelpers
+    internal static class EqualityHelpers
     {
         /// <summary>
         /// The get property value.
@@ -42,14 +42,11 @@ namespace AutoEquals.Lib
         /// </summary>
         /// <param name="obj1">First object to check.</param>
         /// <param name="obj2">Second object to compare with.</param>
-        /// <param name="typeName">String definition of the full namespace type defining the type of both objects.</param>
+        /// <param name="type">Definition of the full namespace type defining the type of both objects.</param>
         /// <returns>True if objects are equal, using a check most suitable for a given type.</returns>
-        public static bool TypeEqual(object obj1, object obj2, string typeName)
+        public static bool TypeEqual(object obj1, object obj2, Type type)
         {
-            if (typeName == "System.String")
-            {
-                return string.Equals(obj1, obj2);
-            }
+            var typeName = type.ToString();
 
             switch (typeName)
             {
@@ -64,22 +61,61 @@ namespace AutoEquals.Lib
                 case "System.DateTime":
                 case "System.TimeSpan":
                     return obj1.Equals(obj2);
+                case "System.Collections.IEnumerable":
+                    return EnumerableEquals(obj1, obj2);
             }
 
-            var type = Type.GetType(typeName);
-
-            if (type != null && (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 return EnumerableEquals(obj1, obj2);
             }
 
-            if (type != null && type == typeof(IEnumerable))
+            return obj1.Equals(obj2);
+        }
+
+        /// <summary>
+        /// The type hash code.
+        /// </summary>
+        /// <param name="obj">
+        /// The object to get hash code for.
+        /// </param>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public static int TypeHashCode(object obj, Type type)
+        {
+            if (obj == null)
             {
-                return EnumerableEquals(obj1, obj2);
+                return 0;
             }
 
-            // ReSharper disable once RedundantNameQualifier
-            return object.Equals(obj1, obj2);
+            var typeName = type.ToString();
+
+            switch (typeName)
+            {
+                case "System.String":
+                case "System.Int32":
+                case "System.Int64":
+                case "System.Double":
+                case "System.Single":
+                case "System.Decimal":
+                case "System.Boolean":
+                case "System.DateTime":
+                case "System.TimeSpan":
+                    return obj.GetHashCode();
+                case "System.Collections.IEnumerable":
+                    return ((IEnumerable)obj).GetCollectionHashCode();
+            }
+
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                return ((IEnumerable)obj).GetCollectionHashCode();
+            }
+
+            return obj.GetHashCode();
         }
 
         /// <summary>

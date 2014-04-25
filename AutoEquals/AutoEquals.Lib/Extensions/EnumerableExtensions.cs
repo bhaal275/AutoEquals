@@ -12,6 +12,7 @@ namespace AutoEquals.Lib.Extensions
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Class containing static extension methods for the <see cref="IEnumerable{T}"/> type.
@@ -107,6 +108,24 @@ namespace AutoEquals.Lib.Extensions
             }
 
             return counts.Count == 0;
+        }
+
+        /// <summary>
+        /// The get collection hash code.
+        /// </summary>
+        /// <param name="collection">
+        /// The collection.
+        /// </param>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public static int GetCollectionHashCode(this IEnumerable collection)
+        {
+            unchecked
+            {
+                return collection.Cast<object>()
+                    .Aggregate(0, (current, elem) => (current * 397) ^ (elem != null ? elem.GetHashCode() : 0));
+            }
         }
     }
 }

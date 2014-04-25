@@ -177,7 +177,8 @@ namespace AutoEquals.Lib.Tests.Unit
                 IntProperty = 4,
                 StringProperty = "sdome",
                 TimeSpanProperty = new TimeSpan(1, 2, 3, 4, 5),
-                EnumerableIntProperty = new List<int> { 1, 2, 3 }
+                EnumerableIntProperty = new List<int> { 1, 2, 3 },
+                EnumerableGenericProperty = new List<int> { 1, 2, 3, 4 }
             };
             var baseClass2 = new BaseClass
             {
@@ -189,7 +190,8 @@ namespace AutoEquals.Lib.Tests.Unit
                 IntProperty = 4,
                 StringProperty = "sdome",
                 TimeSpanProperty = new TimeSpan(1, 2, 3, 4, 5),
-                EnumerableIntProperty = new List<int> { 1, 2, 3 }
+                EnumerableIntProperty = new List<int> { 1, 2, 3 },
+                EnumerableGenericProperty = new List<int> { 1, 2, 3, 4 }
             };
 
             stopwatch.Start();

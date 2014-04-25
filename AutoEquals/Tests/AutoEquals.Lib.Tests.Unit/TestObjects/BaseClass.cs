@@ -10,8 +10,8 @@
 namespace AutoEquals.Lib.Tests.Unit.TestObjects
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     using AutoEquals.Lib.Extensions;
 
@@ -75,6 +75,12 @@ namespace AutoEquals.Lib.Tests.Unit.TestObjects
         public IEnumerable<int> EnumerableIntProperty { get; set; }
 
         /// <summary>
+        /// Gets or sets the enumerable generic property.
+        /// </summary>
+        [EqualsProperty]
+        public IEnumerable EnumerableGenericProperty { get; set; }
+
+        /// <summary>
         /// The real equals.
         /// </summary>
         /// <param name="other">
@@ -101,7 +107,8 @@ namespace AutoEquals.Lib.Tests.Unit.TestObjects
                    && this.BoolProperty.Equals(other.BoolProperty)
                    && this.DateTimeProperty.Equals(other.DateTimeProperty)
                    && this.TimeSpanProperty.Equals(other.TimeSpanProperty)
-                   && this.EnumerableIntProperty.UnsortedSequencesEqual(other.EnumerableIntProperty);
+                   && this.EnumerableIntProperty.UnsortedSequencesEqual(other.EnumerableIntProperty)
+                   && this.EnumerableGenericProperty.UnsortedSequencesEqual(other.EnumerableGenericProperty);
         }
 
         /// <summary>
@@ -123,7 +130,8 @@ namespace AutoEquals.Lib.Tests.Unit.TestObjects
                 hashCode = (hashCode * 397) ^ this.BoolProperty.GetHashCode();
                 hashCode = (hashCode * 397) ^ this.DateTimeProperty.GetHashCode();
                 hashCode = (hashCode * 397) ^ this.TimeSpanProperty.GetHashCode();
-                hashCode = (hashCode * 397) ^ (this.EnumerableIntProperty != null ? this.EnumerableIntProperty.Sum(q => q.GetHashCode()) : 0);
+                hashCode = (hashCode * 397) ^ (this.EnumerableIntProperty != null ? this.EnumerableIntProperty.GetCollectionHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (this.EnumerableGenericProperty != null ? this.EnumerableGenericProperty.GetCollectionHashCode() : 0);
                 return hashCode;
             }
         }
