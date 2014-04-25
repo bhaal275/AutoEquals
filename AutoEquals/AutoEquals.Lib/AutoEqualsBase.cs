@@ -10,6 +10,8 @@
 namespace AutoEquals.Lib
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -144,8 +146,20 @@ namespace AutoEquals.Lib
                             string propName = prop.Name;
 
                             var obj1PropValue = EqualityHelpers.GetPropertyValue(this, propName);
+                            string propType = prop.PropertyType.ToString();
 
-                            result = (result * 397) ^ (obj1PropValue != null ? obj1PropValue.GetHashCode() : 0);
+                            var propertyType = Type.GetType(propType);
+
+                            if (propertyType != null && (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
+                            {
+                                var enumerableValue = (IEnumerable<int>)obj1PropValue;
+
+                                result = (result * 397) ^ (enumerableValue != null ? enumerableValue.Sum(q => q.GetHashCode()) : 0);
+                            }
+                            else
+                            {
+                                result = (result * 397) ^ (obj1PropValue != null ? obj1PropValue.GetHashCode() : 0);
+                            }
                         }
                     }
                 }

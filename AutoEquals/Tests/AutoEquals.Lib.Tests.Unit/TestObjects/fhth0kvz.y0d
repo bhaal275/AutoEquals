@@ -1,0 +1,69 @@
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BaseClass.cs" company="AutoEquals">
+//   AutoEquals Library. Licence: GNU GPL 2.0. No warranty granted, use at your own risk.
+// </copyright>
+// <summary>
+//   The base class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace AutoEquals.Lib.Tests.Unit.TestObjects
+{
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Security;
+
+    using Rhino.Mocks.Constraints;
+
+    /// <summary>
+    /// The base class.
+    /// </summary>
+    public class BaseClass : AutoEqualsBase
+    {
+        /// <summary>
+        /// Gets or sets the base property.
+        /// </summary>
+        [EqualsProperty]
+        public string StringProperty { get; set; }
+
+        /// <summary>
+        /// Gets or sets the int property.
+        /// </summary>
+        [EqualsProperty]
+        public int IntProperty { get; set; }
+
+        /// <summary>
+        /// Gets or sets the double property.
+        /// </summary>
+        [EqualsProperty]
+        public double DoubleProperty { get; set; }
+
+        [EqualsProperty]
+        public float FloatProperty { get; set; }
+
+        [EqualsProperty]
+        public decimal DecimalProperty { get; set; }
+
+        [EqualsProperty]
+        public bool BoolProperty { get; set; }
+
+        [EqualsProperty]
+        public DateTime DateTimeProperty { get; set; }
+
+        [EqualsProperty]
+        public TimeSpan TimeSpanProperty { get; set; }
+
+        [EqualsProperty]
+        public IEnumerable<int> EnumerableIntProperty { get; set; }
+
+        [EqualsProperty]
+        public List<int> ListIntProperty { get; set; }
+
+        [EqualsProperty]
+        public ICollection<int> CollectionIntProperty { get; set; }
+
+        [EqualsProperty]
+        public IDictionary<int, string> DictionaryIntStringProperty { get; set; }
+    }
+}

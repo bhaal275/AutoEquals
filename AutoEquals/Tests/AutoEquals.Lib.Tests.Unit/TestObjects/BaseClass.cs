@@ -11,6 +11,9 @@ namespace AutoEquals.Lib.Tests.Unit.TestObjects
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+
+    using AutoEquals.Lib.Extensions;
 
     /// <summary>
     /// The base class.
@@ -72,21 +75,57 @@ namespace AutoEquals.Lib.Tests.Unit.TestObjects
         public IEnumerable<int> EnumerableIntProperty { get; set; }
 
         /// <summary>
-        /// Gets or sets the list property.
+        /// The real equals.
         /// </summary>
-        [EqualsProperty]
-        public List<int> ListIntProperty { get; set; }
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public bool RealEquals(BaseClass other)
+        {
+            if (object.ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return string.Equals(this.StringProperty, other.StringProperty)
+                   && this.IntProperty == other.IntProperty && this.DoubleProperty.Equals(other.DoubleProperty)
+                   && this.FloatProperty.Equals(other.FloatProperty) && this.DecimalProperty == other.DecimalProperty
+                   && this.BoolProperty.Equals(other.BoolProperty)
+                   && this.DateTimeProperty.Equals(other.DateTimeProperty)
+                   && this.TimeSpanProperty.Equals(other.TimeSpanProperty)
+                   && this.EnumerableIntProperty.UnsortedSequencesEqual(other.EnumerableIntProperty);
+        }
 
         /// <summary>
-        /// Gets or sets the collection property.
+        /// The real get hash code.
         /// </summary>
-        [EqualsProperty]
-        public ICollection<int> CollectionIntProperty { get; set; }
-
-        /// <summary>
-        /// Gets or sets the dictionary property.
-        /// </summary>
-        [EqualsProperty]
-        public IDictionary<int, string> DictionaryIntStringProperty { get; set; }
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public int RealGetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = 0;
+                hashCode = (hashCode * 397) ^ (this.StringProperty != null ? this.StringProperty.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ this.IntProperty;
+                hashCode = (hashCode * 397) ^ this.DoubleProperty.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.FloatProperty.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.DecimalProperty.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.BoolProperty.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.DateTimeProperty.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.TimeSpanProperty.GetHashCode();
+                hashCode = (hashCode * 397) ^ (this.EnumerableIntProperty != null ? this.EnumerableIntProperty.Sum(q => q.GetHashCode()) : 0);
+                return hashCode;
+            }
+        }
     }
 }
